@@ -1,7 +1,7 @@
 # Android FFmpeg Prebuilt
 
 [![GitHub stars](https://img.shields.io/github/stars/hzw1199/Android-FFmpeg-Prebuilt?style=social)](https://github.com/hzw1199/Android-FFmpeg-Prebuilt)
-[![FFmpeg](https://img.shields.io/badge/FFmpeg-8.1.1%20%7C%208.0.1-green)](https://ffmpeg.org/)
+[![FFmpeg](https://img.shields.io/badge/FFmpeg-9.0%20%7C%208.1.1%20%7C%208.0.1-green)](https://ffmpeg.org/)
 [![Platform](https://img.shields.io/badge/Platform-Android-brightgreen)](https://developer.android.com/)
 [![ABI](https://img.shields.io/badge/ABI-arm64--v8a-blue)]()
 [![License](https://img.shields.io/badge/License-LGPL--2.1-orange)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)
@@ -14,7 +14,7 @@ Android 平台 FFmpeg 预编译二进制文件 — 开箱即用，无需编译�
 
 ## 特性
 
-- **FFmpeg 8.1.1 & 8.0.1** — 提供两个版本的预编译产物，按需选用
+- **FFmpeg 9.0、8.1.1 & 8.0.1** — 提供三个版本的预编译产物，按需选用
 - **Android arm64-v8a (aarch64)** — 面向现代 64 位设备，minSdkVersion 28
 - **单一共享库** — `libffmpeg.so` 将 libavcodec、libavformat、libavfilter、libavutil、libavdevice、libswresample、libswscale 全部 7 个核心库合并为一个 `.so`
 - **独立可执行文件** — `ffmpeg` 和 `ffprobe` 可直接推送到设备通过 shell 运行
@@ -26,14 +26,14 @@ Android 平台 FFmpeg 预编译二进制文件 — 开箱即用，无需编译�
 
 ## 文件结构
 
-两个版本的目录结构完全一致，仅以 `ffmpeg-8.1.1/` 为例：
+三个版本的目录结构完全一致，仅以 `ffmpeg-9.0/` 为例：
 
 ```
-ffmpeg-8.1.1/
+ffmpeg-9.0/
 ├── bin/
 │   ├── ffmpeg           # 命令行可执行文件 (15 MB)
 │   └── ffprobe          # 命令行可执行文件 (15 MB)
-├── libffmpeg.so         # 合并共享库 — 全部 7 个模块合一 (75 MB，未 strip)
+├── libffmpeg.so         # 合并共享库 — 全部 7 个模块合一 (76 MB，未 strip)
 ├── include/
 │   ├── libavcodec/
 │   ├── libavdevice/
@@ -45,7 +45,7 @@ ffmpeg-8.1.1/
 └── examples/            # FFmpeg 官方示例源码
 ```
 
-> 8.0.1 版本位于 `ffmpeg-8.0.1/`，文件大小近似相同。
+> 旧版本位于 `ffmpeg-8.1.1/` 与 `ffmpeg-8.0.1/`，文件大小近似相同。
 
 ### 关于 libffmpeg.so 体积（strip）
 
@@ -55,7 +55,7 @@ ffmpeg-8.1.1/
 # 以 NDK r28 为例
 $ANDROID_NDK_HOME/toolchains/llvm/prebuilt/<host-tag>/bin/llvm-strip \
     --strip-unneeded \
-    ffmpeg-8.1.1/libffmpeg.so
+    ffmpeg-9.0/libffmpeg.so
 ```
 
 其中 `<host-tag>` 在 macOS 上为 `darwin-x86_64`，Linux 上为 `linux-x86_64`，Windows 上为 `windows-x86_64`。
@@ -102,7 +102,7 @@ $ANDROID_NDK_HOME/toolchains/llvm/prebuilt/<host-tag>/bin/llvm-strip \
 ### 作为命令行工具在设备上使用
 
 ```bash
-adb push ffmpeg-8.1.1/bin/ffmpeg /data/local/tmp/
+adb push ffmpeg-9.0/bin/ffmpeg /data/local/tmp/
 adb shell chmod +x /data/local/tmp/ffmpeg
 adb shell /data/local/tmp/ffmpeg -version
 ```
@@ -116,7 +116,7 @@ add_library(ffmpeg SHARED IMPORTED)
 set_target_properties(ffmpeg PROPERTIES
     IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/libffmpeg.so
 )
-target_include_directories(your_target PRIVATE ${CMAKE_SOURCE_DIR}/ffmpeg-8.1.1/include)
+target_include_directories(your_target PRIVATE ${CMAKE_SOURCE_DIR}/ffmpeg-9.0/include)
 target_link_libraries(your_target ffmpeg)
 ```
 
@@ -124,7 +124,7 @@ target_link_libraries(your_target ffmpeg)
 
 | 项目          | 值                                    |
 | ------------- | ------------------------------------- |
-| FFmpeg 版本   | 8.1.1、8.0.1                          |
+| FFmpeg 版本   | 9.0、8.1.1、8.0.1                     |
 | 目标平台      | Android                               |
 | 目标 ABI      | arm64-v8a (aarch64)                   |
 | minSdkVersion | 28 (Android 9.0)                      |
@@ -143,7 +143,7 @@ target_link_libraries(your_target ffmpeg)
 - **官方**: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
 - **Git**: [https://git.ffmpeg.org/ffmpeg.git](https://git.ffmpeg.org/ffmpeg.git)
 - **GitHub 镜像**: [https://github.com/FFmpeg/FFmpeg](https://github.com/FFmpeg/FFmpeg)
-- **本次构建对应**: tag `n8.1.1`、`n8.0.1`
+- **本次构建对应**: tag `n9.0`、`n8.1.1`、`n8.0.1`
 
 FFmpeg 包含众多贡献者的代码。完整的版权信息请参阅 FFmpeg 源代码发行版。
 
